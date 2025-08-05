@@ -1,0 +1,60 @@
+<div class="container">
+  @if (initial_loading()) {
+
+  <p>Spinner works now!</p>
+  } @else if (init_load_error()) {
+  <h3>Error loading data!</h3>
+  } @else {
+
+  <div class="control-header">
+    <button matButton="tonal" (click)="addCustomer()" mat>Добавить</button>
+    <mat-paginator
+      [pageIndex]="paginationModel?.pageNumber - 1"
+      [pageSize]="paginationModel?.pageSize"
+      [length]="total_count()"
+      (page)="handlePageEvent($event)"
+      [pageSizeOptions]="[5, 10, 25]"
+      aria-label="Select page of resources"
+    ></mat-paginator>
+  </div>
+
+  @if (!hasData()) {
+  <p>Не найдено записей</p>
+  } @else {
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Наименование</th>
+        <td mat-cell *matCellDef="let resource">{{ resource.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let customer">
+          <button matButton (click)="editCustomer(customer)" color="success">
+            Редактировать
+          </button>
+          <button matButton (click)="fromArchive(customer)" color="to-archive">
+            В архив
+          </button>
+          <button matButton (click)="removeCustomer(customer)" color="danger">
+            Удалить
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let customer">
+          <p>{{ customer.address }}</p>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  } }
+</div>

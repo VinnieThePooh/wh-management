@@ -1,0 +1,120 @@
+<mat-stepper #stepper>
+  <mat-step label="one">
+    <h4>Поступления</h4>
+    <app-supplemments-filter
+      (filterApplied)="onFilterApplied($event)"
+      (filterCleared)="onFilterCleared()"
+    ></app-supplemments-filter>
+    <hr />
+
+    @if (initial_loading()) {
+    <!--todo: add spinner here-->
+    <p>Spinner works now!</p>
+    } @else if (init_load_error()) {
+    <h3>Error loading data!</h3>
+    } @else {
+
+    <div class="control-header">
+      <button matButton="tonal" (click)="addSupplement()" mat>Добавить</button>
+      <mat-paginator
+        [pageIndex]="paginationModel.pageNumber - 1"
+        [pageSize]="paginationModel.pageSize"
+        [length]="total_count()"
+        (page)="handlePageEvent($event)"
+        [pageSizeOptions]="[5, 10, 25]"
+        aria-label="Select page of resources"
+      ></mat-paginator>
+    </div>
+
+    @if (!hasData) {
+    <p>Не найдено поставок</p>
+    } @else {
+    <div class="mat-elevation-z8">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+        multiTemplateDataRows
+      >
+        <ng-container matColumnDef="actions" stop-click-propagation>
+          <th mat-header-cell *matHeaderCellDef></th>
+          >
+          <td mat-cell *matCellDef="let document">
+            <button
+              (click)="onDeleteDocument(document)"
+              matIconButton
+              aria-label="Удалить"
+              stop-click-propagation
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="documentNumber">
+          <th mat-header-cell *matHeaderCellDef>Номер документа</th>
+          <td mat-cell *matCellDef="let supplement">
+            {{ supplement.documentNumber }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supplyDate">
+          <th mat-header-cell *matHeaderCellDef>Дата поставки</th>
+          <td mat-cell *matCellDef="let supplement">
+            {{ supplement.supplyDate | date : "dd.MM.yyyy" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="resources">
+          <th mat-header-cell *matHeaderCellDef>Ресурсы</th>
+          <td mat-cell *matCellDef="let supplement">
+            Число ресурсов в поставке: {{ supplement.resources.length }}
+          </td>
+        </ng-container>
+
+        <!-- Secondary Column -->
+        <ng-container matColumnDef="secondary">
+          <td mat-cell [attr.colspan]="3" *matCellDef="let supplement">
+            @if (supplement.resources.length) {
+            <h5>Содержимое поставки:</h5>
+            <div class="res-table">
+              <table>
+                <tr class="header">
+                  <th>Наименование</th>
+                  <th>Единица измерения</th>
+                  <th>Количество</th>
+                </tr>
+                @for(res of supplement.resources; track res.entityId) {
+                <tr>
+                  <td>{{ res.resourceName }}</td>
+                  <td>{{ res.measureUnit }}</td>
+                  <td>{{ res.quantity }}</td>
+                </tr>
+                }
+              </table>
+            </div>
+            }
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          (click)="editSupplement(row)"
+          class="gold"
+          *matRowDef="let row; columns: displayedColumns"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: ['secondary']"></tr>
+      </table>
+    </div>
+    } }
+  </mat-step>
+  <mat-step label="two">
+    <app-edit-supplement
+      [supplement]="editableSupplement()"
+      [newEntity]="newEntity()"
+      (editApplied)="onEditApplied($event)"
+      (editCancelled)="onEditCancelled()"
+    ></app-edit-supplement>
+  </mat-step>
+</mat-stepper>

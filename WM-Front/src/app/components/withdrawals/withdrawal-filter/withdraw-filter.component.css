@@ -1,0 +1,25 @@
+.form-field {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.filter {
+  margin: 20px 0;
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+div.mdc-label {
+  padding-right: -10px;
+}
+
+button {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+::ng-deep mat-form-field {
+  width: 300px;
+}

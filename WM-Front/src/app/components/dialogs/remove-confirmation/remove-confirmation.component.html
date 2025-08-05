@@ -1,0 +1,8 @@
+<h5 mat-dialog-title>{{ title }}</h5>
+<mat-dialog-content>
+  <p>{{ question }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="onCancelClick()">Нет</button>
+  <button matButton (click)="onOkayClick()" cdkFocusInitial>Да</button>
+</mat-dialog-actions>

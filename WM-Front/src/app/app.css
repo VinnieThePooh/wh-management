@@ -1,0 +1,26 @@
+mat-sidenav {
+  border-right: 1px solid gray;
+  border-radius: 0%;
+  width: 10%;
+  min-width: 150px;
+}
+
+mat-sidenav-content {
+  padding-left: 15px;
+}
+
+.is-active {
+  background-color: gray;
+}
+
+.container {
+    padding: 10px;
+}
+
+:root div.mat-horizontal-content-container {
+  padding: 10px;
+}
+
+:host ::ng-deep .mat-horizontal-content-container {
+    padding:0 !important;
+}

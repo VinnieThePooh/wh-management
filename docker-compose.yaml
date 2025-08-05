@@ -1,0 +1,57 @@
+services:
+  wh.api:
+   container_name: wh.api
+   hostname: wh.api
+   restart: no
+   image: wh.api:latest
+   build:
+    context: ./WM-Back/
+    dockerfile: ./Warehouse.WebApi//Dockerfile
+   environment:
+     ASPNETCORE_ENVIRONMENT: "Production"
+     ASPNETCORE_URLS: "http://*:5146"
+     ConnectionStrings__Default: "User ID=postgres;Password=pg_secret;Host=postgres_db;Port=5432;Database=WarehouseDb;Pooling=true"        
+     Cors__AllowedOrigin: "http://localhost:9090"
+   ports:
+     - "5265:5146"
+   depends_on:
+     - db       
+
+  wh.spa:
+    container_name: wh.spa
+    hostname: wh.spa
+    restart: no
+    image: wh.spa:latest
+    build:
+      context: ./WM-Front/       
+    ports:
+      - "9090:80"
+    depends_on:
+      - wh.api    
+
+    # pgadmin:
+    #   container_name: pgadmin4
+    #   restart: always
+    #   image: dpage/pgadmin4
+    #   ports:
+    #    - 5051:80
+    #   environment:
+    #    - PGADMIN_DEFAULT_EMAIL=user@domain.com
+    #    - PGADMIN_DEFAULT_PASSWORD=password
+    #   depends_on:
+    #     - db             
+
+  db:
+    container_name: postgres-16.3-bookworm-slim
+    hostname: postgres_db
+    restart: no
+    image: postgres:latest      
+    # ports:
+    #   - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=pg_secret
+      - POSTGRES_DB=WarehouseDb
+
+
+
+

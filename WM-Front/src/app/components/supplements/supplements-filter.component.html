@@ -1,0 +1,84 @@
+<div class="filter">
+  <form [formGroup]="filterForm">
+    <!-- Date range -->
+    <div class="form-field">
+      <mat-form-field>
+        <mat-label>Введите диапазон дат</mat-label>
+        <mat-date-range-input formGroupName="range" [rangePicker]="picker">
+          <input
+            formControlName="dateStart"
+            matStartDate
+            placeholder="Начало"
+          />
+          <input formControlName="dateEnd" matEndDate placeholder="Окончание" />
+        </mat-date-range-input>
+
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <!-- Supply doc: -->
+    <div class="form-field">
+      <mat-form-field>
+        <mat-label>Документы</mat-label>
+        <mat-select formControlName="docIds" multiple>
+          <mat-option value="-1" selectAll [allValues]="documentIds">
+            Выбрать все
+          </mat-option>
+          <hr />
+          @for (doc of documentIds; track doc.id;) {
+          <mat-option [value]="doc.id">{{ doc.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Resources -->
+    <div class="form-field">
+      <mat-form-field>
+        <mat-label>Ресурсы</mat-label>
+        <mat-select formControlName="resourceIds" multiple>
+          <mat-option value="-1" selectAll [allValues]="resources"
+            >Выбрать все</mat-option
+          >
+          <hr />
+          @for (res of resources; track res.id) {
+          <mat-option [value]="res.id">{{ res.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Measure units -->
+    <div class="form-field">
+      <mat-form-field>
+        <mat-label>Единица измерения</mat-label>
+        <mat-select
+          (selectionChange)="onSelectionChange($event)"
+          #unit_select
+          formControlName="measureUnitIds"
+          multiple
+        >
+          <mat-option value="-1" selectAll [allValues]="measureUnits"
+            >Выбрать все</mat-option
+          >
+          <hr />
+          @for (unit of filterState?.measureUnits; track unit.id) {
+          <mat-option [value]="unit.id">{{ unit.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button type="submit" matButton="elevated" (click)="onApplyFilter()">
+        Применить
+      </button>
+      <button matButton="tonal" (click)="clearFilter()">Очистить</button>
+    </div>
+  </form>
+</div>

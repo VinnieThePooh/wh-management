@@ -1,0 +1,13 @@
+.filter {
+  margin: 20px 0;
+}
+
+.form-field {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+button {
+  display: inline-block;
+  margin-right: 10px;
+}

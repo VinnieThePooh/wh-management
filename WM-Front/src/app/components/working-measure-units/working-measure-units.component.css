@@ -1,0 +1,22 @@
+.buttons-container {
+  padding: 20px 0;
+  display: flex;
+}
+
+mat-icon {
+  font-size: 20px;
+}
+
+.mat-success {
+  background-color: lightgreen;
+  color: #fff;
+}
+
+.mat-danger {
+  background-color: orange;
+  color: #fff;
+}
+
+.buttons-container .mat-mdc-button-base {
+  margin-top: 8px;
+}

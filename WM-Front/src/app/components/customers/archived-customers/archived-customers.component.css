@@ -1,0 +1,8 @@
+.control-header {
+  margin-bottom: 40px;
+  padding: 20px 0;
+}
+
+.mat-mdc-paginator {
+  display: inline-block;
+}

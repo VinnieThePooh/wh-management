@@ -1,0 +1,110 @@
+<h4>{{ title }}</h4>
+<form [formGroup]="supplementForm">
+  <div>
+    <mat-form-field>
+      <mat-label>Номер документа</mat-label>
+      <input
+        matInput
+        placeholder="Номер документа"
+        formControlName="documentNumber"
+        (blur)="updateErrorMessage()"
+      />
+      @if (documentNumber.invalid && (documentNumber.dirty ||
+      documentNumber.touched)) {
+      <mat-error>
+        {{ docNumberError }}
+      </mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Дата поставки</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="supplyDate" />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker1"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+      @if (supplyDate.invalid && (supplyDate.dirty || supplyDate.touched)) {
+      <mat-error>
+        {{ supplyDateError }}
+      </mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div formArrayName="resources" class="res-section">
+    <h4>Resources</h4>
+
+    <table mat-table [dataSource]="resources" class="mat-elevation-z8">
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          <button
+            (click)="onAddRow()"
+            matIconButton
+            color="green"
+            aria-label="Example icon button with a menu icon"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </th>
+        >
+        <td mat-cell *matCellDef="let resource">
+          <button
+            (click)="onDeleteRow(resource)"
+            matIconButton
+            aria-label="Удалить"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="resourceId">
+        <th mat-header-cell *matHeaderCellDef>Ресурс</th>
+        <td mat-cell *matCellDef="let resource" [formGroup]="resource">
+          <mat-select
+            placeholder="Выберите ресурс"
+            formControlName="resourceId"
+          >
+            <mat-option [value]="null">Выберите ресурс</mat-option>
+            @for (res of resource_list_items; track res.id) {
+            <mat-option [value]="res.id">{{ res.name }}</mat-option>
+            }
+          </mat-select>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="measureUnitId">
+        <th mat-header-cell *matHeaderCellDef>Единица измерения</th>
+        <td mat-cell *matCellDef="let resource" [formGroup]="resource">
+          <mat-select formControlName="measureUnitId">
+            @for (unit of units_list_items; track unit.id) {
+            <mat-option [value]="unit.id">{{ unit.name }}</mat-option>
+            }
+          </mat-select>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Количество</th>
+        <td mat-cell *matCellDef="let resource" [formGroup]="resource">
+          <input
+            type="number"
+            matInput
+            formControlName="quantity"
+            [value]="resource.quantity"
+          />
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <div class="buttons">
+    <button matButton="outlined" (click)="onCancelClick()">Отменить</button>
+    <button matButton="outlined" (click)="onClear()">Cбросить</button>
+    <button matButton="outlined" (click)="onOkayClick()">Сохранить</button>
+  </div>
+</form>

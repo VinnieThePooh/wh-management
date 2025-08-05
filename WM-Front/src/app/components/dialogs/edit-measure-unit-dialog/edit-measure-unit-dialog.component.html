@@ -1,0 +1,21 @@
+<h5 mat-dialog-title>{{ title }}</h5>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Наименование</mat-label>
+    <input
+      matInput
+      id="name"
+      placeholder="Наименование"
+      [formControl]="name"
+      (blur)="updateErrorMessage()"
+      required
+    />
+    @if (name.invalid && (name.dirty || name.touched)) {
+    <mat-error>{{ errorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="onCancelClick()">Cancel</button>
+  <button matButton (click)="onOkayClick()">OK</button>
+</mat-dialog-actions>

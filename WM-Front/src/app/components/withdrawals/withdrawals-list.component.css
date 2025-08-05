@@ -1,0 +1,38 @@
+.control-header {
+  margin-bottom: 40px;
+}
+
+.gold {
+  background-color: gold;
+}
+
+tr.header {
+  font-weight: normal;
+}
+
+.res-table {
+  margin-bottom: 10px;
+}
+
+.mat-mdc-paginator {
+  display: inline-block;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  display: none !important;
+}
+
+table th.mat-column-actions,
+table td.mat-column-actions {
+  width: 20px;
+  padding-left: 0px;
+  padding-right: 0;
+}
+
+td.mat-column-secondary {
+  column-span: 3;
+}
+
+.rotate {
+  rotate: (-45dg);
+}

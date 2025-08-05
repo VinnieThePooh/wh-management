@@ -1,0 +1,12 @@
+.buttons-container {
+  padding: 20px 0;
+  display: flex;
+}
+
+mat-icon {
+  font-size: 20px;
+}
+
+.buttons-container .mat-mdc-button-base {
+  margin-top: 8px;
+}
